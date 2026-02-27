@@ -329,7 +329,7 @@ To test you can use;
 
 ## Example:
 ```bash
-#List movies
+#Movies list
 curl http://localhost:3000/movies
 
 #GET movie by id
