@@ -1,5 +1,5 @@
-# MIMO Movies API
-## MIMO Movies API provides:
+# Movies API
+## This API provides:
 1. A paginated movie catalog
 2. Average rating calculation per movie
 3. User-based rating system (one rating per user per movie)
