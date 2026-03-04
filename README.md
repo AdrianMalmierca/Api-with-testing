@@ -282,9 +282,7 @@ Build a Docker image named "movies-api" from the Dockerfile in the current direc
 
 Run the "movies-api" container, mapping port 3000 and persisting the SQLite database in the local `data` folder:
 ```bash
-MIMO Movies % docker run -p 3000:3000 \   
-  -v "$PWD/data:/app/data" \
-  movies-api
+docker run -p 3000:3000 -v "$PWD/data:/app/data" movies-api
 ```
 
 ## Scripts Disponibles
