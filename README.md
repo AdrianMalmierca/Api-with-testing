@@ -282,8 +282,6 @@ npm install
 npm run db:seed
 ```
 
-## Run
-
 ### With docker
 
 1. Clone the repository
