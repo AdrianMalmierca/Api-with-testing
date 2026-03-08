@@ -343,9 +343,10 @@ To test you can use;
 ```bash
 #Movies list
 curl http://localhost:3000/movies
-
+```
 ![GET movies](./img/GET%20movies.png)
 
+```bash
 #GET movie by id
 curl http://localhost:3000/movies/1
 
