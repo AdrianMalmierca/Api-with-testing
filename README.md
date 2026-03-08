@@ -388,13 +388,13 @@ curl http:/localhost:3000/movies/5/ratings/11
 ```
 ![DELETE rating](assets/Delete%20rating.png)
 
-### GET watchlist
+### GET watchlist by user id
 ```bash
 curl http://localhost:3000/watchlist/1
 ```
 ![GET watchlist](assets/GET%20watchlist.png)
 
-### ADD watchlist
+### ADD watchlist by user id
 ```bash
 curl http://localhost:3000/watchlist/1/items
 ```
@@ -403,7 +403,7 @@ curl http://localhost:3000/watchlist/1/items
 You need to put the id of the movie of which you can add the watchlist:
 ![ADD watchlist](assets/Body%20add%20watch.png)
 
-### UPDATE watchlist
+### UPDATE watchlist by user id and watchlist id
 ```bash
 curl http://localhost:3000/watchlist/1/items/10
 ```
@@ -412,7 +412,7 @@ curl http://localhost:3000/watchlist/1/items/10
 You need to put the id of the movie of which you can add the watchlist:
 ![UPDATE watchlist](assets/Body%20add%20watch.png)
 
-### DELETE watchlist
+### DELETE watchlist by user id and watchlist id
 ```bash
 curl http://localhost:3000/watchlist/1/items/10
 ```
