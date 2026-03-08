@@ -264,37 +264,53 @@ Request → Route → Middleware → Controller → Model → Database
 
 - Models: Access data using Sequelize.
 
-## Run without docker
+## Run
 
+### Without docker
+1. Clone the repository
 ```bash
-#Instal dependencies
-npm install
+git clone https://github.com/AdrianMalmierca/Api-with-testing
+```
 
-#Populate the database with test data
+2. Instal dependencies
+```bash
+npm install
+```
+
+3. Populate the database with test data
+```bash
 npm run db:seed
 ```
 
-## Run with docker
-Build a Docker image named "movies-api" from the Dockerfile in the current directory:
+## Run
+
+### With docker
+
+1. Clone the repository
+```bash
+git clone https://github.com/AdrianMalmierca/Api-with-testing
+```
+
+2. Build a Docker image named "movies-api" from the Dockerfile in the current directory:
 ```bash
  docker build -t movies-api .
 ```
 
-Run the "movies-api" container, mapping port 3000 and persisting the SQLite database in the local `data` folder:
+3. Run the "movies-api" container, mapping port 3000 and persisting the SQLite database in the local `data` folder:
 ```bash
 docker run -p 3000:3000 -v "$PWD/data:/app/data" movies-api
 ```
 
-## Scripts Disponibles
+## Scripts you can use
 
-| Script             | Descripción                                          |
-| ------------------ | ---------------------------------------------------- |
-| `npm run dev`      | Inicia el servidor en modo desarrollo con hot-reload |
-| `npm run build`    | Compila TypeScript a JavaScript                      |
-| `npm start`        | Inicia el servidor compilado                         |
-| `npm run db:seed`  | Crea y pobla la base de datos con datos de prueba    |
-| `npm run db:reset` | Elimina la base de datos (para empezar de cero)      |
-| `npm test`         | Ejecuta los tests                                    |
+| Script             | Descripción                                            |
+| ------------------ | -------------------------------------------------------|
+| `npm run dev`      | Start the server in development mode with a hot-reload |
+| `npm run build`    | Compiles TypeScript to JavaScript                      |
+| `npm start`        | Starts the compiled server                             |
+| `npm run db:seed`  | Creates and populates the database with test data      |
+| `npm run db:reset` | Deletes the database (to start from scratch)           |
+| `npm test`         | Runs the tests                                         |
 
 ## Users
 After run `npm run db:seed` or `MIMO Movies % docker run -p 3000:3000 -v "$PWD/data:/app/data" movies-api`, you'll have:
