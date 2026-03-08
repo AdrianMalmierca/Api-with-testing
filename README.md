@@ -340,73 +340,87 @@ To test you can use;
 - curl desde terminal
 
 ## Execution:
-1. GET all movies
+### GET all movies
 ```bash
 curl http://localhost:3000/movies
 ```
 ![GET movies](assets/GET%20movies.png)
 
-2. GET movie by id
+### GET movie by id
 ```bash
 curl http://localhost:3000/movies/1
 ```
-![GET movies](assets/GET%20movies.png)
+![GET movie by id](assets/GET%20movies.png)
 
-3. GET ratings by movie id
+### GET ratings by movie id
 ```bash
 curl http://localhost:3000/movies/1/ratings
 ```
-![GET movies](assets/Rating%20movie.png)
+![GET rating by movie id](assets/Rating%20movie.png)
 
-4. GET rating by id by movie id
+### GET rating by id by movie id
 ```bash
 curl http://localhost:3000/movies/1/ratings/4
 ```
-![GET movies](assets/Rating%20id%20by%20movie%20id.png)
+![GET rating by id by movie id](assets/Rating%20id%20by%20movie%20id.png)
 
-5. ADD rating
+### ADD rating by movie id
 ```bash
 curl http://localhost:3000/movies/5/ratings
 ```
-![GET movies](assets/Add%20rating.png)
+![ADD rating](assets/Add%20rating.png)
 
-6. UPDATE rating
+You need to put the rating and the comment in the body:
+![ADD rating](assets/Body%20add%20rating.png)
+
+### UPDATE rating by movie id and rating id
 ```bash
 curl http://localhost:3000/movies/5/ratings
 ```
-![GET movies](assets/Update%20rating.png)
+![UPDATE rating](assets/Update%20rating.png)
 
-7. DELETE rating
+You don't need to put the rating or the comment to update:
+![UPDATE rating](assets/Body%20update%20rating.png)
+
+### DELETE rating by movie id and rating id
 ```bash
 curl http:/localhost:3000/movies/5/ratings/11
 ```
-![GET movies](assets/Delete%20rating.png)
+![DELETE rating](assets/Delete%20rating.png)
 
-8. GET watchlist
+### GET watchlist
 ```bash
 curl http://localhost:3000/watchlist/1
 ```
-![GET movies](assets/GET%20watchlist.png)
+![GET watchlist](assets/GET%20watchlist.png)
 
-9. ADD watchlist
+### ADD watchlist
 ```bash
 curl http://localhost:3000/watchlist/1/items
 ```
-![GET movies](assets/Add%20watchlist.png)
+![ADD watchlist](assets/Add%20watchlist.png)
 
-10. UPDATE watchlist
+You need to put the id of the movie of which you can add the watchlist:
+![ADD watchlist](assets/Body%20add%20watch.png)
+
+### UPDATE watchlist
 ```bash
 curl http://localhost:3000/watchlist/1/items/10
 ```
-![GET movies](assets/Update%20watchlist.png)
+![UPDATE watchlist](assets/Update%20watchlist.png)
 
-11. DELETE watchlist
+You need to put the id of the movie of which you can add the watchlist:
+![UPDATE watchlist](assets/Body%20add%20watch.png)
+
+### DELETE watchlist
 ```bash
 curl http://localhost:3000/watchlist/1/items/10
 ```
-![GET movies](assets/Delete%20watchlist.png)
 
-12. Bad authorization
+You need to put the attribute wacthed, changing the value:
+![DELETE watchlist](assets/Body%20update%20watch.png)
+
+### Bad authorization
 For example, if you don't put the api key as a header or is wrong, you won't be able to do the method
 ![GET movies](assets/Bad%20auth.png)
 
