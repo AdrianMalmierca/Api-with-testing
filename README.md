@@ -339,27 +339,77 @@ To test you can use;
 - [Postman](https://www.postman.com/)
 - curl desde terminal
 
-## Example:
+## Execution:
+1. GET all movies
 ```bash
-#Movies list
 curl http://localhost:3000/movies
 ```
 ![GET movies](assets/GET%20movies.png)
 
+2. GET movie by id
 ```bash
-#GET movie by id
 curl http://localhost:3000/movies/1
-
-#Create rating (with api key)
-curl -X POST http://localhost:3000/movies/1/ratings \
-  -H "Content-Type: application/json" \
-  -H "x-api-key: api_key_john_12345" \
-  -d '{"rating": 4.5, "comment": "Excelente película"}'
-
-#GET watchlist (with api key)
-curl http://localhost:3000/watchlist/1 \
-  -H "x-api-key: api_key_john_12345"
 ```
+![GET movies](assets/GET%20movies.png)
+
+3. GET ratings by movie id
+```bash
+curl http://localhost:3000/movies/1/ratings
+```
+![GET movies](assets/Rating%20movie.png)
+
+4. GET rating by id by movie id
+```bash
+curl http://localhost:3000/movies/1/ratings/4
+```
+![GET movies](assets/Rating%20id%20by%20movie%20id.png)
+
+5. ADD rating
+```bash
+curl http://localhost:3000/movies/5/ratings
+```
+![GET movies](assets/Add%20rating.png)
+
+6. UPDATE rating
+```bash
+curl http://localhost:3000/movies/5/ratings
+```
+![GET movies](assets/Update%20rating.png)
+
+7. DELETE rating
+```bash
+curl http:/localhost:3000/movies/5/ratings/11
+```
+![GET movies](assets/Delete%20rating.png)
+
+8. GET watchlist
+```bash
+curl http://localhost:3000/watchlist/1
+```
+![GET movies](assets/GET%20watchlist.png)
+
+9. ADD watchlist
+```bash
+curl http://localhost:3000/watchlist/1/items
+```
+![GET movies](assets/Add%20watchlist.png)
+
+10. UPDATE watchlist
+```bash
+curl http://localhost:3000/watchlist/1/items/10
+```
+![GET movies](assets/Update%20watchlist.png)
+
+11. DELETE watchlist
+```bash
+curl http://localhost:3000/watchlist/1/items/10
+```
+![GET movies](assets/Delete%20watchlist.png)
+
+12. Bad authorization
+For example, if you don't put the api key as a header or is wrong, you won't be able to do the method
+![GET movies](assets/Bad%20auth.png)
+
 
 ## What did I learn?
 This project has helped me learn how to create an API from scratch, using tests to check all the endpoints and implementing docker.
