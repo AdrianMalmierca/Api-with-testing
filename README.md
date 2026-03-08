@@ -301,7 +301,7 @@ docker run -p 3000:3000 -v "$PWD/data:/app/data" movies-api
 
 ## Scripts you can use
 
-| Script             | Descripción                                            |
+| Script             | Description                                            |
 | ------------------ | -------------------------------------------------------|
 | `npm run dev`      | Start the server in development mode with a hot-reload |
 | `npm run build`    | Compiles TypeScript to JavaScript                      |
@@ -343,6 +343,8 @@ To test you can use;
 ```bash
 #Movies list
 curl http://localhost:3000/movies
+
+![GET movies](./img/GET%20movies.png)
 
 #GET movie by id
 curl http://localhost:3000/movies/1
