@@ -409,16 +409,14 @@ curl http://localhost:3000/watchlist/1/items/10
 ```
 ![UPDATE watchlist](assets/Update%20watchlist.png)
 
-You need to put the id of the movie of which you can add the watchlist:
+You need to put the attribute wacthed, changing the value:
 ![UPDATE watchlist](assets/Body%20add%20watch.png)
 
 ### DELETE watchlist by user id and watchlist id
 ```bash
 curl http://localhost:3000/watchlist/1/items/10
 ```
-
-You need to put the attribute wacthed, changing the value:
-![DELETE watchlist](assets/Body%20update%20watch.png)
+![DELETE watchlist](assets/Delete%20watchlist.png)
 
 ### Bad authorization
 For example, if you don't put the api key as a header or is wrong, you won't be able to do the method
