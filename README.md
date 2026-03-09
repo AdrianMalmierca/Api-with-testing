@@ -341,30 +341,35 @@ To test you can use;
 
 ## Execution:
 ### GET all movies
+You obtain the movie list.
 ```bash
 curl http://localhost:3000/movies
 ```
 ![GET movies](assets/GET%20movies.png)
 
 ### GET movie by id
+You obtain the movie id you put on the url, in case it exist.
 ```bash
 curl http://localhost:3000/movies/1
 ```
 ![GET movie by id](assets/GET%20movies.png)
 
 ### GET ratings by movie id
+You obtain all the ratings of the movie id you put on the url, in case it exist.
 ```bash
 curl http://localhost:3000/movies/1/ratings
 ```
 ![GET rating by movie id](assets/Rating%20movie.png)
 
 ### GET rating by id by movie id
+You obtain the rating of the movie id and the rating id you put on the url, in case it exist.
 ```bash
 curl http://localhost:3000/movies/1/ratings/4
 ```
 ![GET rating by id by movie id](assets/Rating%20id%20by%20movie%20id.png)
 
 ### ADD rating by movie id
+You add the rating putting all the attributes in the body. You need authorization.
 ```bash
 curl http://localhost:3000/movies/5/ratings
 ```
@@ -374,6 +379,7 @@ You need to put the rating and the comment in the body:
 ![ADD rating](assets/Body%20add%20rating.png)
 
 ### UPDATE rating by movie id and rating id
+You update the rating putting the id in the url and changing the comment and/or the rating. You need authorization.
 ```bash
 curl http://localhost:3000/movies/5/ratings
 ```
@@ -383,18 +389,21 @@ You don't need to put the rating or the comment to update:
 ![UPDATE rating](assets/Body%20update%20rating.png)
 
 ### DELETE rating by movie id and rating id
+You delete the rating putting the id in the url. You need authorization.
 ```bash
 curl http:/localhost:3000/movies/5/ratings/11
 ```
 ![DELETE rating](assets/Delete%20rating.png)
 
 ### GET watchlist by user id
+You get all the watchlist of the user you put the id in th url. You need authorization.
 ```bash
 curl http://localhost:3000/watchlist/1
 ```
 ![GET watchlist](assets/GET%20watchlist.png)
 
 ### ADD watchlist by user id
+You create a watchlist for the user put the id in the url. You need authorization.
 ```bash
 curl http://localhost:3000/watchlist/1/items
 ```
@@ -404,6 +413,7 @@ You need to put the id of the movie of which you can add the watchlist:
 ![ADD watchlist](assets/Body%20add%20watch.png)
 
 ### UPDATE watchlist by user id and watchlist id
+You update the watchlist of the user you put the id in the url with the id of the watchlist. You only update the attribute "watched". You need authorization.
 ```bash
 curl http://localhost:3000/watchlist/1/items/10
 ```
@@ -413,6 +423,7 @@ You need to put the attribute wacthed, changing the value:
 ![UPDATE watchlist](assets/Body%20add%20watch.png)
 
 ### DELETE watchlist by user id and watchlist id
+You delete a watchlist of the user put the id in the url. You need authorization.
 ```bash
 curl http://localhost:3000/watchlist/1/items/10
 ```
