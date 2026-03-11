@@ -19,10 +19,10 @@ describe("Ratings API", () => {
 
     const api = generateApiKey();
 
-    const user = await UserModel.create({
-    username: "test",
-    email: "test@test.com",
-    apiKey: api,
+    await UserModel.create({
+      username: "test",
+      email: "test@test.com",
+      apiKey: api,
     });
 
 
