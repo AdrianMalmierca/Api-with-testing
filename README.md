@@ -9,6 +9,15 @@
 
 It simulates a production-ready backend for a movie platform where users can rate movies and maintain personal watchlists.
 
+## Technologies used
+- TypeScript Node.js 
+- Jest
+- Supertest
+- Docker
+- GitHub Actions
+
+![CI](https://github.com/AdrianMalmierca/Api-with-testing/actions/workflows/ci.yml/badge.svg)
+
 ## Problem it solves
 Modern applications (web or mobile) often require:
 - A movie catalog with aggregated metrics (e.g., average ratings)
@@ -22,6 +31,18 @@ This project solves those requirements by:
 - Implementing API key authentication
 - Returning paginated responses with metadata
 - Computing aggregated ratings directly at database level
+
+## Continuous Integration & Deployment
+This project follows professional CI/CD practices, demonstrating robust engineering skills even as a junior developer.
+
+Pipeline includes:
+- Automated tests using Jest & Supertest
+  - Unit tests
+  - Integration tests for the API
+- Build verification with TypeScript compilation
+- Docker image build and optional deployment to Docker Hub
+- Health checks to ensure the API starts correctly
+- Runs automatically on every push and pull request to the main branch
 
 ## Architecture and design
 ```
