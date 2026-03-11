@@ -1,7 +1,7 @@
 import request from "supertest";
 import { app } from "../app";
 import db from "../db";
-import { Movie, Rating, User } from "../db";
+import { Movie} from "../db";
 import { generateApiKey } from "../auth";
 import { UserModel } from "../models/user";
 
