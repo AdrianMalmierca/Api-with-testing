@@ -12,6 +12,7 @@ app.use(respondTo("application/json"));
 
 app.use("/movies", moviesRoutes);
 app.use("/watchlist", watchlistRoutes);
+app.get("/health", (_req, res) => res.status(200).send("OK"));
 
 app.use(notFoundHandler);
 app.use(errorHandler);
