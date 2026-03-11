@@ -7,6 +7,7 @@ import { UserModel } from "../models/user";
 
 describe("Ratings API", () => {
   let apiKey: string;
+
   let movieId: number;
 
   beforeAll(async () => {
@@ -17,6 +18,13 @@ describe("Ratings API", () => {
     await db.instance.sync({ force: true });
 
     const api = generateApiKey();
+
+    const user = await UserModel.create({
+    username: "test",
+    email: "test@test.com",
+    apiKey: api,
+    });
+
 
     apiKey = api;
 
