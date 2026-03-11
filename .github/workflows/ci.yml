@@ -69,7 +69,7 @@ jobs:
 
       - name: Run Docker container
         run: |
-          docker run -d -p 3000:3000 --name test-api movies-api
+          docker run -d -p 3000:3000 --name test-api mimo-movies-api
           sleep 5
           curl -f http://localhost:3000/health
           docker stop test-api
