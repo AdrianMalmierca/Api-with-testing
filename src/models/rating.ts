@@ -1,4 +1,4 @@
-import { Rating, RatingAttributes, Movie, User } from "../db";
+import { Rating, RatingAttributes} from "../db";
 import { FindAndCountOptions } from "sequelize";
 
 export const RatingModel = {

@@ -7,7 +7,6 @@ import { UserModel } from "../models/user";
 
 describe("Ratings API", () => {
   let apiKey: string;
-  let userId: number;
   let movieId: number;
 
   beforeAll(async () => {
@@ -19,15 +18,7 @@ describe("Ratings API", () => {
 
     const api = generateApiKey();
 
-    const user = await UserModel.create({
-    username: "test",
-    email: "test@test.com",
-    apiKey: api,
-    });
-
-
     apiKey = api;
-    userId = user.id;
 
     const movie = await Movie.create({title: "Test Movie",
                                       genre: "Action",
