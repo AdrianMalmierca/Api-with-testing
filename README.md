@@ -15,10 +15,10 @@ A production-ready REST API built with Node.js and TypeScript, providing a movie
 ## Problem Statement
 
 Modern applications (web or mobile) often require:
-- A movie catalog with aggregated metrics (average ratings)
-- User-specific actions (ratings, watchlists)
-- Controlled access to private resources
-- Pagination for scalable data retrieval
+- A movie catalog with aggregated metrics (average ratings).
+- User-specific actions (ratings, watchlists).
+- Controlled access to private resources.
+- Pagination for scalable data retrieval.
 
 This API solves those requirements by providing structured relational data models, enforcing business rules at controller and model level, implementing API key authentication, returning paginated responses with metadata, and computing aggregated ratings directly at the database level for efficiency.
 
@@ -26,11 +26,11 @@ This API solves those requirements by providing structured relational data model
 
 ## What This API Provides
 
-- Paginated movie catalog with average rating per movie
-- User-based rating system (one rating per user per movie)
-- Authenticated watchlist management
-- API key–based authentication
-- Request validation and structured error handling
+- Paginated movie catalog with average rating per movie.
+- User-based rating system (one rating per user per movie).
+- Authenticated watchlist management.
+- API key–based authentication.
+- Request validation and structured error handling.
 
 ---
 
@@ -72,31 +72,31 @@ curl http://localhost:3000/watchlist/1 \
 ## Features
 
 ### Authentication
-- API key–based authentication via `x-api-key` header
-- Middleware validates key and attaches `userId` to the request
-- Public endpoints: GET movies, GET ratings
-- Protected endpoints: create/update/delete ratings, all watchlist operations
+- API key–based authentication via `x-api-key` header.
+- Middleware validates key and attaches `userId` to the request.
+- Public endpoints: GET movies, GET ratings.
+- Protected endpoints: create/update/delete ratings, all watchlist operations.
 
 ### Movie Catalog
-- Paginated list with average rating computed at database level using `AVG()`
-- Single movie retrieval with rating aggregation
-- Efficient and scalable — no post-processing in application code
+- Paginated list with average rating computed at database level using `AVG()`.
+- Single movie retrieval with rating aggregation.
+- Efficient and scalable — no post-processing in application code.
 
 ### Ratings
-- One rating per user per movie (enforced at database level)
-- Users can only modify or delete their own ratings
-- Paginated rating listing per movie
+- One rating per user per movie (enforced at database level).
+- Users can only modify or delete their own ratings.
+- Paginated rating listing per movie.
 
 ### Watchlist
 - Personal watchlist per user
-- Add, update watched status, and remove items
-- Users can only access their own watchlist
+- Add, update watched status, and remove items.
+- Users can only access their own watchlist.
 
 ### Validation & Error Handling
-- Joi schema validation on request bodies — returns `422 Unprocessable Entity`
-- `406 Not Acceptable` for non-JSON requests
-- Centralized 500 error handler
-- 404 fallback handler
+- Joi schema validation on request bodies — returns `422 Unprocessable Entity`.
+- `406 Not Acceptable` for non-JSON requests.
+- Centralized 500 error handler.
+- 404 fallback handler.
 
 ---
 
@@ -244,11 +244,11 @@ index.ts
 Built with GitHub Actions — runs on every push and pull request to `main`.
 
 Pipeline steps:
-1. Install dependencies
-2. TypeScript compilation check
-3. Run unit and integration tests (Jest + Supertest)
-4. Build Docker image
-5. Health check — verifies the API starts correctly
+1. Install dependencies.
+2. TypeScript compilation check.
+3. Run unit and integration tests (Jest + Supertest).
+4. Build Docker image.
+5. Health check — verifies the API starts correctly.
 
 ---
 
@@ -342,4 +342,4 @@ MIT — free to use, modify, and deploy.
 
 **Adrián Martín Malmierca**  
 Computer Engineer & Mobile Applications Master's Student  
-[GitHub](https://github.com/AdrianMalmierca) · [LinkedIn](https://linkedin.com/in/adrianmalmierca)
+[GitHub](https://github.com/AdrianMalmierca) · [LinkedIn](https://www.linkedin.com/in/adri%C3%A1n-mart%C3%ADn-malmierca-4aa6b0293/)
