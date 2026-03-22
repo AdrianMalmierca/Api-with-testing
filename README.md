@@ -1,206 +1,135 @@
 # Movies API
-## This API provides:
-1. A paginated movie catalog
-2. Average rating calculation per movie
-3. User-based rating system (one rating per user per movie)
-4. Authenticated watchlist management
-5. API key–based authentication
-6. Request validation and structured error handling
 
-It simulates a production-ready backend for a movie platform where users can rate movies and maintain personal watchlists.
-
-## Technologies used
-- TypeScript Node.js 
-- Jest
-- Supertest
-- Docker
-- GitHub Actions
-
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
+![Node.js](https://img.shields.io/badge/Node.js-20-339933?style=flat-square&logo=node.js)
+![Express](https://img.shields.io/badge/Express-4-000000?style=flat-square&logo=express)
+![Sequelize](https://img.shields.io/badge/Sequelize-6-52B0E7?style=flat-square&logo=sequelize)
+![Jest](https://img.shields.io/badge/Jest-29-C21325?style=flat-square&logo=jest)
+![Docker](https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square&logo=docker)
 ![CI](https://github.com/AdrianMalmierca/Api-with-testing/actions/workflows/ci.yml/badge.svg)
 
-## Problem it solves
+A production-ready REST API built with Node.js and TypeScript, providing a movie catalog with user ratings, personal watchlists, and API key authentication — fully tested with Jest and Supertest, containerized with Docker, and integrated with GitHub Actions CI/CD.
+
+---
+
+## Problem Statement
+
 Modern applications (web or mobile) often require:
-- A movie catalog with aggregated metrics (e.g., average ratings)
+- A movie catalog with aggregated metrics (average ratings)
 - User-specific actions (ratings, watchlists)
 - Controlled access to private resources
 - Pagination for scalable data retrieval
 
-This project solves those requirements by:
-- Providing structured relational data models
-- Enforcing business rules at controller and model level
-- Implementing API key authentication
-- Returning paginated responses with metadata
-- Computing aggregated ratings directly at database level
+This API solves those requirements by providing structured relational data models, enforcing business rules at controller and model level, implementing API key authentication, returning paginated responses with metadata, and computing aggregated ratings directly at the database level for efficiency.
 
-## Continuous Integration & Deployment
-This project follows professional CI/CD practices, demonstrating robust engineering skills even as a junior developer.
+---
 
-Pipeline includes:
-- Automated tests using Jest & Supertest
-  - Unit tests
-  - Integration tests for the API
-- Build verification with TypeScript compilation
-- Docker image build and optional deployment to Docker Hub
-- Health checks to ensure the API starts correctly
-- Runs automatically on every push and pull request to the main branch
+## What This API Provides
 
-## Architecture and design
+- Paginated movie catalog with average rating per movie
+- User-based rating system (one rating per user per movie)
+- Authenticated watchlist management
+- API key–based authentication
+- Request validation and structured error handling
+
+---
+
+## Screenshots
+
+### GET all movies
+```bash
+curl http://localhost:3000/movies
 ```
-src/
-  ├── config.ts        
-  ├── db.ts            
-  ├── models/          
-  │   ├── user.ts
-  │   ├── movie.ts
-  │   ├── rating.ts
-  │   └── watchlistItem.ts
-  ├── app.ts        
-  ├── controllers/  
-  │   ├── movies.ts
-  │   ├── ratings.ts
-  │   └── watchlist.ts
-  ├── middlewares/    
-  │   ├── errorHandler.ts
-  │   ├── notFoundHandler.ts
-  │   ├── verifyToken.ts
-  │   ├── respondTo.ts
-  │   └── validatePayload.ts
-  ├── routes/     
-  │   ├── movies.ts
-  │   ├── ratings.ts
-  │   └── watchlist.ts
-  ├── schemas/    
-  │   ├── rating.ts
-  │   └── watchlist.ts
-  └── utils/           
-      ├── pagination.ts
-      └── serializers.ts
-scripts/
-  ├── seed.ts    
-  └── reset.ts  
-doc/
-  ├── mimo_movies.json  
-index.ts              
+![GET movies](assets/GET%20movies.png)
+
+### GET ratings by movie
+```bash
+curl http://localhost:3000/movies/1/ratings
 ```
+![GET ratings](assets/Rating%20movie.png)
 
-### Routing layer
-Defines HTTP endpoints using Express routers:
-- `/movies`
-- `/movies/:movieId/ratings`
-- `/watchlist/:userId`
-
-### Controllers
-Contain application logic:
-- Validate route parameters
-- Apply business rules
-- Handle authorization checks
-- Format JSON responses
-- Set correct HTTP status codes
-
-For example:
-- A user cannot rate the same movie twice
-- A user can only modify their own ratings
-- A user can only access their own watchlist
-
-### Models
-Implemented using **Sequelize ORM**.
-
-Responsibilities:
-1. Query abstraction
-2. Pagination handling
-3. Aggregation (AVG rating calculation)
-4. Association management
-
-Notable feature:
-
-#### Average rating calculation
-Movies are retrieved with:
-```ts
-Sequelize.fn("AVG", Sequelize.col("ratings.rating"))
+### Add a rating (authenticated)
+```bash
+curl -X POST http://localhost:3000/movies/5/ratings \
+  -H "x-api-key: api_key_john_12345" \
+  -H "Content-Type: application/json" \
+  -d '{"rating": 8, "comment": "Great movie"}'
 ```
+![Add rating](assets/Add%20rating.png)
 
-This ensures average ratings are computed at database level (efficient and scalable).
+### Watchlist
+```bash
+curl http://localhost:3000/watchlist/1 \
+  -H "x-api-key: api_key_john_12345"
+```
+![GET watchlist](assets/GET%20watchlist.png)
 
-### Middleware layer
+### Unauthorized request
+![Bad auth](assets/Bad%20auth.png)
 
-####  `verifyToken`
-- Reads `x-api-key` header
-- Validates user existence
-- Attaches `userId` to request
+---
 
-#### `validatePayload`
-- Uses Joi for request body validation
-- Returns `422 Unprocessable Entity` on invalid input
+## Features
 
-#### `respondTo`
-- Enforces `application/json` responses
-- Returns `406 Not Acceptable` otherwise
+### Authentication
+- API key–based authentication via `x-api-key` header
+- Middleware validates key and attaches `userId` to the request
+- Public endpoints: GET movies, GET ratings
+- Protected endpoints: create/update/delete ratings, all watchlist operations
 
-#### Error handling
-- Centralized 500 handler
+### Movie Catalog
+- Paginated list with average rating computed at database level using `AVG()`
+- Single movie retrieval with rating aggregation
+- Efficient and scalable — no post-processing in application code
+
+### Ratings
+- One rating per user per movie (enforced at database level)
+- Users can only modify or delete their own ratings
+- Paginated rating listing per movie
+
+### Watchlist
+- Personal watchlist per user
+- Add, update watched status, and remove items
+- Users can only access their own watchlist
+
+### Validation & Error Handling
+- Joi schema validation on request bodies — returns `422 Unprocessable Entity`
+- `406 Not Acceptable` for non-JSON requests
+- Centralized 500 error handler
 - 404 fallback handler
 
-### Authentication strategy
-The API uses **API Key authentication**:
-- Users have a unique `apiKey`
-- The client must send:
-```
-x-api-key: YOUR_API_KEY
-```
+---
 
-Protected endpoints:
-- Create / Update / Delete ratings
-- All watchlist endpoints
+## API Endpoints
 
-Public endpoints:
-- GET movies
-- GET ratings
+### Movies
 
-## Technologies Used
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/movies` | No | Paginated movie list with average ratings |
+| GET | `/movies/:movieId` | No | Single movie with average rating |
 
-### TypeScript
-- Static typing
-- Better maintainability
-- Safer refactoring
+### Ratings
 
-### Express
-- Minimal and flexible HTTP framework
-- Middleware-based architecture
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/movies/:movieId/ratings` | No | All ratings for a movie (paginated) |
+| POST | `/movies/:movieId/ratings` | Required | Create a rating (one per user) |
+| PATCH | `/movies/:movieId/ratings/:ratingId` | Required | Update own rating |
+| DELETE | `/movies/:movieId/ratings/:ratingId` | Required | Delete own rating |
 
-### Sequelize
-- ORM abstraction
-- Associations
-- Aggregations
-- Pagination support
+### Watchlist
 
-### SQLite
-- Lightweight file-based database
-- Ideal for local development and testing
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/watchlist/:userId` | Required | Get user's watchlist (paginated) |
+| POST | `/watchlist/:userId/items` | Required | Add movie to watchlist |
+| PATCH | `/watchlist/:userId/items/:itemId` | Required | Update watched status |
+| DELETE | `/watchlist/:userId/items/:itemId` | Required | Remove from watchlist |
 
-### Joi
-- Declarative schema validation
-- Clean error reporting
+### Pagination
 
-## Database Design
-
-### Tables
-- `users`
-- `movies`
-- `ratings`
-- `watchlist_items`
-
-### Relationships
-- User → has many Ratings
-- User → has many WatchlistItems
-- Movie → has many Ratings
-- Movie → has many WatchlistItems
-
-### Constraints
-- Unique rating per user per movie
-- Unique watchlist item per user per movie
-
-## Pagination
-Supported via query parameters:
+All list endpoints support:
 ```
 ?page=1&limit=10
 ```
@@ -218,247 +147,199 @@ Response format:
 }
 ```
 
-## Database seeding
-The project includes scripts to:
-- Reset database
-- Populate test data
+### Response Codes
 
-### Reset database
-- Deletes SQLite file
-- Recreates schema
+`200 OK` · `201 Created` · `204 No Content` · `400 Bad Request` · `401 Unauthorized` · `403 Forbidden` · `404 Not Found` · `409 Conflict` · `422 Validation Error` · `500 Internal Server Error`
 
-If you want to run alone:
-```bash
-npm run db:reset
-```
+---
 
-### Seed database
-Creates:
-- 3 users
-- 25 movies
-- 10 ratings
-- 9 watchlist items
+## Tech Stack
 
-It also prints test API keys in the console.
+| Layer | Technology | Reason |
+|-------|-----------|--------|
+| Runtime | Node.js 20 | Fast, non-blocking I/O |
+| Language | TypeScript | Static typing, safer refactoring |
+| Framework | Express 4 | Minimal, middleware-based HTTP framework |
+| ORM | Sequelize 6 | Associations, aggregations, pagination |
+| Database | SQLite | Zero-config for dev and testing |
+| Validation | Joi | Declarative schema validation |
+| Testing | Jest + Supertest | Unit and integration tests |
+| CI/CD | GitHub Actions | Automated test and build pipeline |
+| Containerization | Docker | Portable, reproducible environment |
 
-If you want to run alone:
-```bash
-npm run db:seed
-```
-
-## API endpoints
-
-### Movies
-| Method | Endpoint           | Authentication | Description                                       |
-| ------ | ------------------ | -------------- | ------------------------------------------------- |
-| GET    | `/movies`          |   No           | Paginated list of movies including average rating |
-| GET    | `/movies/:movieId` |   No           | Retrieve a single movie with its average rating   |
-
-### Ratings
-| Method | Endpoint                             | Authentication     | Description                                      |
-| ------ | ------------------------------------ | ------------------ | ------------------------------------------------ |
-| GET    | `/movies/:movieId/ratings`           |   No               | Get all ratings for a specific movie (paginated) |
-| POST   | `/movies/:movieId/ratings`           |   API Key required | Create a rating for a movie (one per user)       |
-| PATCH  | `/movies/:movieId/ratings/:ratingId` |   API Key required | Update a user’s own rating                       |
-| DELETE | `/movies/:movieId/ratings/:ratingId` |   API Key required | Delete a user’s own rating                       |
-
-
-### Watchlist
-| Method | Endpoint                           | Authentication     | Description                               |
-| ------ | ---------------------------------- | ------------------ | ----------------------------------------- |
-| GET    | `/watchlist/:userId`               |   API Key required | Get paginated watchlist for a user        |
-| POST   | `/watchlist/:userId/items`         |   API Key required | Add a movie to the user’s watchlist       |
-| PATCH  | `/watchlist/:userId/items/:itemId` |   API Key required | Update watched status of a watchlist item |
-| DELETE | `/watchlist/:userId/items/:itemId` |   API Key required | Remove a movie from the watchlist         |
+---
 
 ## Architecture
 
-The application follows a layered architecture:
-
+```
 Request → Route → Middleware → Controller → Model → Database
-
-- Routes: Define the endpoints.
-
-- Middleware: Authentication, validation, and error handling.
-
-- Controllers: Contain the business logic.
-
-- Models: Access data using Sequelize.
-
-## Run
-
-### Without docker
-1. Clone the repository
-```bash
-git clone https://github.com/AdrianMalmierca/Api-with-testing
 ```
 
-2. Instal dependencies
+```
+src/
+├── config.ts
+├── db.ts
+├── models/
+│   ├── user.ts
+│   ├── movie.ts
+│   ├── rating.ts
+│   └── watchlistItem.ts
+├── app.ts
+├── controllers/
+│   ├── movies.ts
+│   ├── ratings.ts
+│   └── watchlist.ts
+├── middlewares/
+│   ├── errorHandler.ts
+│   ├── notFoundHandler.ts
+│   ├── verifyToken.ts
+│   ├── respondTo.ts
+│   └── validatePayload.ts
+├── routes/
+│   ├── movies.ts
+│   ├── ratings.ts
+│   └── watchlist.ts
+├── schemas/
+│   ├── rating.ts
+│   └── watchlist.ts
+└── utils/
+    ├── pagination.ts
+    └── serializers.ts
+scripts/
+├── seed.ts
+└── reset.ts
+doc/
+└── mimo_movies.json     # OpenAPI spec
+index.ts
+```
+
+### Key Design Decisions
+
+**Average rating at database level** — computed using `Sequelize.fn("AVG", Sequelize.col("ratings.rating"))` rather than in application code, keeping queries efficient and scalable.
+
+**Layered architecture** — routes define endpoints, middleware handles cross-cutting concerns (auth, validation, error handling), controllers contain business logic, models abstract data access.
+
+**Business rules enforced at multiple levels** — unique constraints at the database level + checks in controllers (e.g., a user cannot rate the same movie twice, cannot modify another user's rating).
+
+---
+
+## Database Design
+
+### Tables
+- `users` — `id`, `username`, `apiKey`
+- `movies` — `id`, `title`, `genre`, `year`
+- `ratings` — `id`, `userId`, `movieId`, `rating`, `comment` · unique on `(userId, movieId)`
+- `watchlist_items` — `id`, `userId`, `movieId`, `watched` · unique on `(userId, movieId)`
+
+### Relationships
+- User → has many Ratings
+- User → has many WatchlistItems
+- Movie → has many Ratings
+- Movie → has many WatchlistItems
+
+---
+
+## CI/CD Pipeline
+
+Built with GitHub Actions — runs on every push and pull request to `main`.
+
+Pipeline steps:
+1. Install dependencies
+2. TypeScript compilation check
+3. Run unit and integration tests (Jest + Supertest)
+4. Build Docker image
+5. Health check — verifies the API starts correctly
+
+---
+
+## Running Locally
+
+### Without Docker
+
 ```bash
+# Clone the repository
+git clone https://github.com/AdrianMalmierca/Api-with-testing
+cd Api-with-testing
+
+# Install dependencies
 npm install
-```
 
-3. Populate the database with test data
-```bash
+# Seed the database
 npm run db:seed
+
+# Start the development server
+npm run dev
 ```
 
-### With docker
+### With Docker
 
-1. Clone the repository
 ```bash
+# Clone the repository
 git clone https://github.com/AdrianMalmierca/Api-with-testing
-```
+cd Api-with-testing
 
-2. Build a Docker image named "movies-api" from the Dockerfile in the current directory:
-```bash
- docker build -t movies-api .
-```
+# Build the image
+docker build -t movies-api .
 
-3. Run the "movies-api" container, mapping port 3000 and persisting the SQLite database in the local `data` folder:
-```bash
+# Run the container (SQLite persisted in ./data)
 docker run -p 3000:3000 -v "$PWD/data:/app/data" movies-api
 ```
 
-## Scripts you can use
+---
 
-| Script             | Description                                            |
-| ------------------ | -------------------------------------------------------|
-| `npm run dev`      | Start the server in development mode with a hot-reload |
-| `npm run build`    | Compiles TypeScript to JavaScript                      |
-| `npm start`        | Starts the compiled server                             |
-| `npm run db:seed`  | Creates and populates the database with test data      |
-| `npm run db:reset` | Deletes the database (to start from scratch)           |
-| `npm test`         | Runs the tests                                         |
+## Scripts
 
-## Users
-After run `npm run db:seed` or `MIMO Movies % docker run -p 3000:3000 -v "$PWD/data:/app/data" movies-api`, you'll have:
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start server in development mode with hot-reload |
+| `npm run build` | Compile TypeScript to JavaScript |
+| `npm start` | Start the compiled server |
+| `npm run db:seed` | Create and populate the database with test data |
+| `npm run db:reset` | Delete the database (start from scratch) |
+| `npm test` | Run all tests |
 
-| User       | API Key              |
-| ---------- | -------------------- |
-| john_doe   | `api_key_john_12345` |
+---
+
+## Demo Users
+
+After running `npm run db:seed` or the Docker command:
+
+| Username | API Key |
+|----------|---------|
+| john_doe | `api_key_john_12345` |
 | jane_smith | `api_key_jane_67890` |
-| bob_wilson | `api_key_bob_11111`  |
+| bob_wilson | `api_key_bob_11111` |
 
-## Especificación de la API
-Check the file `doc/mimo_movies.json` to see the full OpenAPI. You can see it in: [Swagger Editor](https://editor.swagger.io/).
+---
 
-## Response codes
-- 200 OK
-- 201 Created
-- 204 No Content
-- 400 Bad Request
-- 401 Unauthorized
-- 403 Forbidden
-- 404 Not Found
-- 409 Conflict
-- 422 Validation Error
-- 500 Internal Server Error
+## API Specification
 
-## Testing
-To test you can use;
-- [Postman](https://www.postman.com/)
-- curl desde terminal
+Full OpenAPI spec available in `doc/mimo_movies.json`. Import it into [Swagger Editor](https://editor.swagger.io/) to explore all endpoints interactively.
 
-## Execution:
-### GET all movies
-You obtain the movie list.
-```bash
-curl http://localhost:3000/movies
-```
-![GET movies](assets/GET%20movies.png)
+---
 
-### GET movie by id
-You obtain the movie id you put on the url, in case it exist.
-```bash
-curl http://localhost:3000/movies/1
-```
-![GET movie by id](assets/GET%20movies.png)
+## What I Learned Building This
 
-### GET ratings by movie id
-You obtain all the ratings of the movie id you put on the url, in case it exist.
-```bash
-curl http://localhost:3000/movies/1/ratings
-```
-![GET rating by movie id](assets/Rating%20movie.png)
+**Layered architecture in practice** — separating routes, middleware, controllers, and models made the codebase easier to test and reason about. Each layer has a single responsibility, which also made writing integration tests much cleaner.
 
-### GET rating by id by movie id
-You obtain the rating of the movie id and the rating id you put on the url, in case it exist.
-```bash
-curl http://localhost:3000/movies/1/ratings/4
-```
-![GET rating by id by movie id](assets/Rating%20id%20by%20movie%20id.png)
+**Testing at multiple levels** — writing both unit tests and integration tests with Supertest taught me the difference between testing business logic in isolation vs. testing the full HTTP request/response cycle. Integration tests caught several edge cases that unit tests missed.
 
-### ADD rating by movie id
-You add the rating putting all the attributes in the body. You need authorization.
-```bash
-curl http://localhost:3000/movies/5/ratings
-```
-![ADD rating](assets/Add%20rating.png)
+**Database-level aggregations** — computing average ratings with `AVG()` via Sequelize rather than in application code was a key architectural decision. It keeps the logic close to the data and scales better as the dataset grows.
 
-You need to put the rating and the comment in the body:
-![ADD rating](assets/Body%20add%20rating.png)
+**CI/CD from scratch** — setting up the GitHub Actions pipeline reinforced how much value automated testing adds even on small projects. Catching regressions on every push is a habit worth building early.
 
-### UPDATE rating by movie id and rating id
-You update the rating putting the id in the url and changing the comment and/or the rating. You need authorization.
-```bash
-curl http://localhost:3000/movies/5/ratings
-```
-![UPDATE rating](assets/Update%20rating.png)
+**Docker for reproducibility** — containerizing the app taught me to think about environment dependencies explicitly. The SQLite volume mount pattern for persisting data across container restarts was a practical lesson in stateful containerization.
 
-You don't need to put the rating or the comment to update:
-![UPDATE rating](assets/Body%20update%20rating.png)
+---
 
-### DELETE rating by movie id and rating id
-You delete the rating putting the id in the url. You need authorization.
-```bash
-curl http:/localhost:3000/movies/5/ratings/11
-```
-![DELETE rating](assets/Delete%20rating.png)
+## License
 
-### GET watchlist by user id
-You get all the watchlist of the user you put the id in th url. You need authorization.
-```bash
-curl http://localhost:3000/watchlist/1
-```
-![GET watchlist](assets/GET%20watchlist.png)
+MIT — free to use, modify, and deploy.
 
-### ADD watchlist by user id
-You create a watchlist for the user put the id in the url. You need authorization.
-```bash
-curl http://localhost:3000/watchlist/1/items
-```
-![ADD watchlist](assets/Add%20watchlist.png)
-
-You need to put the id of the movie of which you can add the watchlist:
-![ADD watchlist](assets/Body%20add%20watch.png)
-
-### UPDATE watchlist by user id and watchlist id
-You update the watchlist of the user you put the id in the url with the id of the watchlist. You only update the attribute "watched". You need authorization.
-```bash
-curl http://localhost:3000/watchlist/1/items/10
-```
-![UPDATE watchlist](assets/Update%20watchlist.png)
-
-You need to put the attribute wacthed, changing the value:
-![UPDATE watchlist](assets/Body%20add%20watch.png)
-
-### DELETE watchlist by user id and watchlist id
-You delete a watchlist of the user put the id in the url. You need authorization.
-```bash
-curl http://localhost:3000/watchlist/1/items/10
-```
-![DELETE watchlist](assets/Delete%20watchlist.png)
-
-### Bad authorization
-For example, if you don't put the api key as a header or is wrong, you won't be able to do the method
-![GET movies](assets/Bad%20auth.png)
-
-
-## What did I learn?
-This project has helped me learn how to create an API from scratch, using tests to check all the endpoints and implementing docker.
+---
 
 ## Author
-Adrián Martín Malmierca 
 
-Computer Engineer & Mobile Applications Master's Student
+**Adrián Martín Malmierca**  
+Computer Engineer & Mobile Applications Master's Student  
+[GitHub](https://github.com/AdrianMalmierca) · [LinkedIn](https://linkedin.com/in/adrianmalmierca)
