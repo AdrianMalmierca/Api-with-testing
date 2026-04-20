@@ -1,13 +1,13 @@
 import db, { User, Movie, Rating, WatchlistItem } from "../src/db";
 
 async function seed(): Promise<void> {
-  console.log("🌱 Inicializando base de datos...");
+  console.log("🌱 Initializing database...");
   await db.initialize();
 
-  console.log("🗑️  Limpiando datos existentes...");
+  console.log("🗑️  Cleaning existing data...");
   await db.reset();
 
-  console.log("👤 Creando usuarios...");
+  console.log("👤 Creating users...");
   const users = await User.bulkCreate([
     {
       username: "john_doe",
@@ -26,7 +26,7 @@ async function seed(): Promise<void> {
     },
   ]);
 
-  console.log("🎬 Creando películas...");
+  console.log("🎬 Creating movies...");
   const movies = await Movie.bulkCreate([
     { title: "Inception", genre: "Sci-Fi", duration: 148 },
     { title: "The Dark Knight", genre: "Action", duration: 152 },
@@ -55,7 +55,7 @@ async function seed(): Promise<void> {
     { title: "Parasite", genre: "Thriller", duration: 132 },
   ]);
 
-  console.log("⭐ Creando valoraciones...");
+  console.log("⭐ Creating ratings...");
   await Rating.bulkCreate([
     // John's ratings
     {
@@ -112,7 +112,7 @@ async function seed(): Promise<void> {
     },
   ]);
 
-  console.log("📋 Creando watchlist items...");
+  console.log("📋 Creating watchlist items...");
   await WatchlistItem.bulkCreate([
     // John's watchlist
     { userId: users[0].id, movieId: movies[2].id, watched: false },
@@ -128,12 +128,12 @@ async function seed(): Promise<void> {
     { userId: users[2].id, movieId: movies[4].id, watched: false },
   ]);
 
-  console.log("\n✅ Base de datos poblada correctamente!\n");
-  console.log("📊 Resumen:");
-  console.log(`   - ${users.length} usuarios`);
-  console.log(`   - ${movies.length} películas`);
-  console.log(`   - 10 valoraciones`);
-  console.log(`   - 9 items en watchlist`);
+  console.log("\n✅ Database populated successfully!\n");
+  console.log("📊 Summary:");
+  console.log(`   - ${users.length} users`);
+  console.log(`   - ${movies.length} movies`);
+  console.log(`   - 10 ratings`);
+  console.log(`   - 9 items in watchlist`);
   console.log("\n🔑 API Keys de prueba:");
   users.forEach((user) => {
     console.log(`   - ${user.username}: ${user.apiKey}`);
@@ -143,6 +143,6 @@ async function seed(): Promise<void> {
 }
 
 seed().catch((error) => {
-  console.error("❌ Error al poblar la base de datos:", error);
+  console.error("❌ Error populating the database:", error);
   process.exit(1);
 });

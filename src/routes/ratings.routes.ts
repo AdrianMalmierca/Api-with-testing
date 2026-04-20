@@ -4,7 +4,7 @@ import { verifyToken } from "../middlewares/verifyToken";
 import { validatePayload } from "../middlewares/validatePayload";
 import { ratingSchema } from "../schemas/rating.schema";
 
-const router = express.Router({ mergeParams: true });
+const router = express.Router({ mergeParams: true }); //to get movieId from the parent route
 
 router.get("/", ratingsController.getAll);
 router.get("/:ratingId", ratingsController.getById);

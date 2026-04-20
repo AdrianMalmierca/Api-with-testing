@@ -48,14 +48,14 @@ export const WatchlistItemModel = {
     };
 
     if (pagination) {
-      const offset = (pagination.page - 1) * pagination.limit;
       options.limit = pagination.limit;
-      options.offset = offset;
+      options.offset = (pagination.page - 1) * pagination.limit;;
     }
 
     const { rows, count } = await this.model.findAndCountAll(options);
 
-    // Transformar para incluir el título de la película
+    //Transform the rows to include the movie title in the result, 
+    // we need to cast the result to a plain object to access the included movie data
     const transformedRows = rows.map((item) => {
       const plain = item.get({ plain: true }) as WatchlistItem & {
         movie?: { title: string };
@@ -92,4 +92,3 @@ export const WatchlistItemModel = {
     });
   },
 };
-

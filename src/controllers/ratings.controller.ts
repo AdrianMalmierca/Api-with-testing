@@ -27,9 +27,11 @@ export const ratingsController = {
       limit,
     });
 
+    const pagination = createPaginationMetadata(page, limit, result.count)
+
     res.json({
       data: result.rows,
-      pagination: createPaginationMetadata(page, limit, result.count),
+      pagination: pagination,
     });
   },
 

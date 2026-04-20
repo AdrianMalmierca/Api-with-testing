@@ -35,10 +35,9 @@ export const watchlistController = {
       limit,
     });
 
-    res.json({
-      data: result.rows,
-      pagination: createPaginationMetadata(page, limit, result.count),
-    });
+    const pagination = createPaginationMetadata(page, limit, result.count)
+
+    res.json({data: result.rows, pagination: pagination});
   },
 
   //POST /watchlist/:userId/items

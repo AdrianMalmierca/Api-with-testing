@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import Joi from "joi";
 
-export const validatePayload =
+export const validatePayload = //to validate the request body against a Joi schema
   (schema: Joi.ObjectSchema) =>
   (req: Request, res: Response, next: NextFunction): void => {
     const payload = req.body;

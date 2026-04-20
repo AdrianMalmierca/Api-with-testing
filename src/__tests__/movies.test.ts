@@ -22,7 +22,7 @@ describe("Movies API", () => {
       expect(res.body.data).toEqual([]);
       expect(res.body.pagination.total).toBe(0);
     });
-
+   
     it("should paginate movies", async () => {
         for (let i = 1; i <= 15; i++) {
             await Movie.create({

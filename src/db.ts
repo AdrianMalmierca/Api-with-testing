@@ -65,10 +65,7 @@ export class Rating extends Model<RatingAttributes> implements RatingAttributes 
   public readonly createdAt!: Date;
 }
 
-export class WatchlistItem
-  extends Model<WatchlistItemAttributes>
-  implements WatchlistItemAttributes
-{
+export class WatchlistItem extends Model<WatchlistItemAttributes> implements WatchlistItemAttributes{
   public id!: number;
   public userId!: number;
   public movieId!: number;

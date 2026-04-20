@@ -114,6 +114,7 @@ curl http://localhost:3000/watchlist/1 \
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
 | GET | `/movies/:movieId/ratings` | No | All ratings for a movie (paginated) |
+| GET | `/movies/:movieId/ratings/:ratingid` | No | A rating for a movie |
 | POST | `/movies/:movieId/ratings` | Required | Create a rating (one per user) |
 | PATCH | `/movies/:movieId/ratings/:ratingId` | Required | Update own rating |
 | DELETE | `/movies/:movieId/ratings/:ratingId` | Required | Delete own rating |
@@ -202,9 +203,13 @@ src/
 ├── schemas/
 │   ├── rating.ts
 │   └── watchlist.ts
-└── utils/
-    ├── pagination.ts
-    └── serializers.ts
+├── utils/
+|    ├── pagination.ts
+|    └── serializers.ts
+└── __tests__
+│   ├── movies.test.ts
+│   ├── ratings.test.ts
+│   └── watchlist.test.ts
 scripts/
 ├── seed.ts
 └── reset.ts
@@ -213,13 +218,16 @@ doc/
 index.ts
 ```
 
-### Key Design Decisions
+## Key Design Decisions
 
-**Average rating at database level** — computed using `Sequelize.fn("AVG", Sequelize.col("ratings.rating"))` rather than in application code, keeping queries efficient and scalable.
+### Average rating at database level
+Computed using `Sequelize.fn("AVG", Sequelize.col("ratings.rating"))` rather than in application code, keeping queries efficient and scalable.
 
-**Layered architecture** — routes define endpoints, middleware handles cross-cutting concerns (auth, validation, error handling), controllers contain business logic, models abstract data access.
+### Layered architecture
+Routes define endpoints, middleware handles cross-cutting concerns (auth, validation, error handling), controllers contain business logic, models abstract data access.
 
-**Business rules enforced at multiple levels** — unique constraints at the database level + checks in controllers (e.g., a user cannot rate the same movie twice, cannot modify another user's rating).
+### Business rules enforced at multiple levels
+Unique constraints at the database level + checks in controllers (e.g., a user cannot rate the same movie twice, cannot modify another user's rating).
 
 ---
 
@@ -320,15 +328,17 @@ Full OpenAPI spec available in `doc/mimo_movies.json`. Import it into [Swagger E
 
 ## What I Learned Building This
 
-**Layered architecture in practice** — separating routes, middleware, controllers, and models made the codebase easier to test and reason about. Each layer has a single responsibility, which also made writing integration tests much cleaner.
+### Layered architecture in practice
+Separating routes, middleware, controllers, and models made the codebase easier to test and reason about. Each layer has a single responsibility, which also made writing integration tests much cleaner.
 
-**Testing at multiple levels** — writing both unit tests and integration tests with Supertest taught me the difference between testing business logic in isolation vs. testing the full HTTP request/response cycle. Integration tests caught several edge cases that unit tests missed.
+### Database-level aggregations
+Computing average ratings with `AVG()` via Sequelize rather than in application code was a key architectural decision. It keeps the logic close to the data and scales better as the dataset grows.
 
-**Database-level aggregations** — computing average ratings with `AVG()` via Sequelize rather than in application code was a key architectural decision. It keeps the logic close to the data and scales better as the dataset grows.
+### CI/CD from scratch
+Setting up the GitHub Actions pipeline reinforced how much value automated testing adds even on small projects. Catching regressions on every push is a habit worth building early.
 
-**CI/CD from scratch** — setting up the GitHub Actions pipeline reinforced how much value automated testing adds even on small projects. Catching regressions on every push is a habit worth building early.
-
-**Docker for reproducibility** — containerizing the app taught me to think about environment dependencies explicitly. The SQLite volume mount pattern for persisting data across container restarts was a practical lesson in stateful containerization.
+### Docker for reproducibility
+Containerizing the app taught me to think about environment dependencies explicitly. The SQLite volume mount pattern for persisting data across container restarts was a practical lesson in stateful containerization.
 
 ---
 

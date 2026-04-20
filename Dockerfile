@@ -24,7 +24,7 @@ RUN npm ci --omit=dev
 
 COPY --from=builder /app/dist ./dist
 
-# Carpeta persistente para SQLite
+#Persistent data directory for SQLite database
 RUN mkdir -p /app/data
 
 ENV NODE_ENV=production

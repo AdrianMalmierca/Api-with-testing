@@ -22,10 +22,10 @@ export function parsePaginationParams(
   query: Request["query"],
   defaultLimit: number = 10
 ): PaginationParams {
-  const parsedPage = parseInt(query.page as string, 10);
+  const parsedPage = parseInt(query.page as string, 10); //base 10 to ensure it's treated as a decimal number
   const parsedLimit = parseInt(query.limit as string, 10);
 
-  const page = Math.max(1, isNaN(parsedPage) ? 1 : parsedPage);
+  const page = Math.max(1, isNaN(parsedPage) ? 1 : parsedPage); //if page is not a number or less than 1, default to 1
   const limit = Math.max(
     1,
     isNaN(parsedLimit) || parsedLimit === 0 ? defaultLimit : parsedLimit
@@ -35,21 +35,21 @@ export function parsePaginationParams(
 }
 
 /**
- Calcula el total de páginas del total y limite
- @param total - Total número de items
- @param limit - Items por página
- @returns Total número de páginas
+ Calculate total number of pages based on total items and limit
+ @param total - Total number of items
+ @param limit - Items per page
+ @returns Total number of pages
  */
 export function calculateTotalPages(total: number, limit: number): number {
   return Math.ceil(total / limit);
 }
 
 /**
- Crea paginación objeto metadata
- @param page - Página actual
- @param limit - Items por página
- @param total - Total número de páginas
- @returns Paginación metadata
+ Create pagination metadata object
+ @param page - Current page
+ @param limit - Items per page
+ @param total - Total number of pages
+ @returns Pagination metadata
  */
 export function createPaginationMetadata(
   page: number,

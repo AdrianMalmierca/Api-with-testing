@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-export const errorHandler = (
+export const errorHandler = ( //to handle unexpected errors and send a generic response
   err: Error,
   req: Request,
   res: Response,

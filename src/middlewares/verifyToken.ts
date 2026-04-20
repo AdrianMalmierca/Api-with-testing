@@ -24,7 +24,7 @@ export const verifyToken = async (
     return;
   }
 
-  (req as AuthenticatedRequest).userId = user.id;
+  (req as AuthenticatedRequest).userId = user.id; //add userid to the request
 
   next();
 };

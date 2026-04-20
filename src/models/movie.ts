@@ -27,21 +27,20 @@ export const MovieModel = {
   },
 
 
-  //Obtiene una película con su rating promedio calculado
+  //Get a movie by id with its average rating calculated
   async findByIdWithRating(id: number): Promise<MovieWithRating | null> {
     const movie = await this.model.findByPk(id, {
-      include: [
+      include: [ //join with ratings to calculate the average rating
         {
           model: Rating,
           as: "ratings",
-          attributes: [],
+          attributes: [], //we don't need the individual ratings, just the average
         },
       ],
-      attributes: {
+      attributes: { //we add an extra attribute "rating" which is the average of the ratings.rating column
         include: [
           [
-            Sequelize.fn("AVG", Sequelize.col("ratings.rating")),
-            "rating",
+            Sequelize.fn("AVG", Sequelize.col("ratings.rating")), "rating", //alias for the average rating
           ],
         ],
       },
@@ -50,10 +49,10 @@ export const MovieModel = {
 
     if (!movie) return null;
 
-    return movie.get({ plain: true }) as MovieWithRating;
+    return movie.get({ plain: true }) as MovieWithRating; //convert the Sequelize model instance to a plain object and cast it to MovieWithRating
   },
 
-  //Obtiene todas las películas con su rating promedio calculado
+  //Get all movies with their average rating calculated, with pagination
   async findAllWithRating(pagination?: {
     page: number;
     limit: number;
@@ -77,14 +76,14 @@ export const MovieModel = {
 
 
     if (pagination) {
-      const offset = (pagination.page - 1) * pagination.limit;
       options.limit = pagination.limit;
-      options.offset = offset;
+      options.offset = (pagination.page - 1) * pagination.limit;;
     }
 
     const { count: countResult, rows } = await this.model.findAndCountAll(options);
     
-    //findAndCountAll con group devuelve un array de objetos {count: number}
+    //findAndCountAll with group returns count as an array of objects with the count for each group, 
+    // so we need to sum them up to get the total count
     const count = Array.isArray(countResult) ? countResult.length : countResult;
 
     return {

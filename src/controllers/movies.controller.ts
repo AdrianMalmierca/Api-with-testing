@@ -19,10 +19,7 @@ export const moviesController = {
       result.count
     );
 
-    res.json({
-      data: result.rows,
-      pagination,
-    });
+    res.json({data: result.rows, pagination});
   },
 
 //GET /movies/:movieId

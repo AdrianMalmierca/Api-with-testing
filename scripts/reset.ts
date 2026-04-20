@@ -3,29 +3,29 @@ import * as fs from "fs";
 import { config } from "../src/config";
 
 async function reset(): Promise<void> {
-  console.log("🗑️  Eliminando base de datos...");
+  console.log("🗑️  Deleting database...");
 
-  // Cerrar conexión si existe
+  //Close database connection if open
   try {
     await db.close();
   } catch {
-    // Ignorar errores de cierre
+    //Ignore closure errors
   }
 
-  // Eliminar archivo de base de datos si existe
+  //Delete database file if it exists
   if (fs.existsSync(config.DB_PATH)) {
     fs.unlinkSync(config.DB_PATH);
-    console.log(`   Archivo ${config.DB_PATH} eliminado`);
+    console.log(`   File ${config.DB_PATH} deleted`);
   } else {
-    console.log(`   No existía archivo ${config.DB_PATH}`);
+    console.log(`   File ${config.DB_PATH} did not exist`);
   }
 
-  console.log("\n✅ Base de datos reseteada correctamente!");
-  console.log("   Ejecuta 'npm run db:seed' para poblar con datos de prueba");
+  console.log("\n✅ Database reset successfully!");
+  console.log("   Run 'npm run db:seed' to populate with test data");
 }
 
 reset().catch((error) => {
-  console.error("❌ Error al resetear la base de datos:", error);
+  console.error("❌ Error resetting the database:", error);
   process.exit(1);
 });
 
