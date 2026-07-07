@@ -24,7 +24,7 @@ RUN npm ci --omit=dev
 
 COPY --from=builder /app/dist ./dist
 
-#Persistent data directory for SQLite database
+#Directory where the SQLite database will be stored
 RUN mkdir -p /app/data
 
 ENV NODE_ENV=production

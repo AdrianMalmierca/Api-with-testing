@@ -6,7 +6,7 @@ export const errorHandler = ( //to handle unexpected errors and send a generic r
   res: Response,
   next: NextFunction
 ): void => {
-  if (res.headersSent) {
+  if (res.headersSent) { //check if the response headers have already been sent, if so, delegate to the default error handler
     return next(err);
   }
 
